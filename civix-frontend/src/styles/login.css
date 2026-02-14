@@ -19,6 +19,7 @@
   justify-content: center;
 }
 
+
 .login-image {
   width: 20rem;
     margin-left: 13rem;
@@ -43,32 +44,31 @@
 }
 
 .login-left input {
-  padding: 12px;
-  margin-top: 5px;
-  border-radius: 8px;
-  border: 1px solid #ddd;
+  padding: 8px;         /* smaller */
+  font-size: 14px;      /* smaller text */
+  border-radius: 6px;
 }
 
 .forgot {
   text-align: right;
-  margin-top: 8px;
+   padding-bottom: 10px;
 }
 
 .forgot a {
   font-size: 13px;
   text-decoration: none;
-  color: #1f3c88;
+  color: #1E4AE9;
 }
 
+
 .signin-btn {
-  margin-top: 20px;
-  padding: 12px;
-  background: #173b3f;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
+  padding: 8px;         /* smaller */
+  font-size: 14px;
+  border-radius: 6px;
+  background-color: #162D3A;
+  color:#FFFFFF
 }
+
 
 .divider {
   text-align: center;
@@ -76,24 +76,22 @@
   color: gray;
 }
 
-.google-btn,
-.facebook-btn {
-  padding: 10px;
-  border-radius: 8px;
-  border: none;
-  margin-bottom: 10px;
-  cursor: pointer;
-  background: #f2f2f2;
-}
 
 .signup-text {
   margin-top: 15px;
   font-size: 14px;
+  margin-left: 33%;
 }
 
 .signup-text span {
-  color: #1f3c88;
+  color: #1E4AE9;
   cursor: pointer;
+}
+.footer {
+   /* pushes it to bottom */
+  text-align: center; /* center horizontally */
+  font-size: 12px;
+  color: #959CB6;
 }
 
 /* RIGHT SIDE */
@@ -101,14 +99,21 @@
   width: 45%;
   padding: 60px;
   color: white;
-  background: linear-gradient(135deg, #1f3c88, #4b6cb7);
   display: flex;
   flex-direction: column;
   justify-content: center;
   border-radius: 30px;
   margin: 20px;
-  margin-right: 20px;
+
+  background: 
+    linear-gradient(rgba(21, 78, 225, 0.75), rgba(21, 78, 225, 0.75)),
+    url("../assets/image.png");
+opacity: 0.9;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
+
 
 .login-right h1 {
   font-size: 40px;
@@ -134,4 +139,129 @@
 
 .stats h2 {
   font-size: 22px;
+}
+.form-box{
+  width:400px;
+  margin-left: 11rem;
+}
+.form-box input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  margin-bottom: 12px;
+  border-radius: 12px !important;
+  border: 1px solid #ccc;
+  outline: none;
+}
+
+.form-box input:focus {
+  border: 1px solid #1f3c88;
+}
+
+.signin-btn,
+.google-btn,
+.facebook-btn {
+  width: 100%;
+  padding: 10px;
+  border-radius: 12px !important;
+  border: none;
+  cursor: pointer;
+}
+.social-media {
+  display: flex;
+  flex-direction: column; /* buttons one below another */
+  gap: 12px;              /* space between them */
+} 
+.google-btn {
+  display: flex;              /* keep image + text in one line */
+  align-items: center;        /* vertical center */
+  justify-content: center;    /* center everything */
+  gap: 10px;                  /* space between image & text */
+}
+.facebook-btn{
+  display: flex;              /* keep image + text in one line */
+  align-items: center;        /* vertical center */
+  justify-content: center;    /* center everything */
+  gap: 10px;  
+  margin-left: 6px;
+}
+.icon {
+  width: 18px;                /* small image */
+  height: 18px;
+}
+/* Blue overlay */
+
+.right-content {
+  max-width: 550px;
+}
+
+/* Quote */
+.quote {
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 1.4;
+  margin-bottom: 15px;
+}
+
+.quote-sub {
+  margin-bottom: 40px;
+  opacity: 0.9;
+}
+
+/* Brand */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.brand i {
+  font-size: 28px;
+}
+
+/* Platform title */
+.platform-title {
+  margin-bottom: 15px;
+  font-weight: 500;
+}
+
+/* Description */
+.description {
+  margin-bottom: 30px;
+  line-height: 1.6;
+}
+
+/* Features */
+.features {
+  margin-bottom: 40px;
+}
+
+.feature-item {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.feature-item i {
+  font-size: 22px;
+  margin-top: 5px;
+}
+
+/* Stats */
+.stats {
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid rgba(255,255,255,0.3);
+  padding-top: 20px;
+}
+
+.stats h3 {
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.stats p {
+  font-size: 14px;
+  opacity: 0.9;
 }
