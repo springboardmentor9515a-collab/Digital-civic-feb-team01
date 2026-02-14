@@ -35,6 +35,7 @@
   width: 20rem;
     margin-left: 13rem;
     margin-top: -70px;
+}
 .welcome-image {
   width: 14rem;
   /* Adjusted size */
@@ -97,7 +98,7 @@
   font-size: 14px;
   border-radius: 6px;
   background-color: #162D3A;
-  color:#FFFFFF
+  color:#FFFFFF;
   margin-top: 20px;
   padding: 12px;
   background: #173b3f;
@@ -419,7 +420,7 @@ opacity: 0.9;
 .stats p {
   font-size: 14px;
   opacity: 0.9;
-
+}
 .stats p {
   font-size: 0.7rem;
   /* Reduced from 0.8rem */
