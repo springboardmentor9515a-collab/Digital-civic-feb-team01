@@ -58,7 +58,7 @@ function Login() {
 
           <button className="signin-btn">Sign in</button>
 
-          <div className="divider">OR</div>
+          <div className="divider">---------- OR ----------</div>
 
           <div className="social-media">
             <button className="google-btn" onClick={() => handleGoogleLogin()}>
