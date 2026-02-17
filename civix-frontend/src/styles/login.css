@@ -1,0 +1,248 @@
+html, body, #root {
+  height: 100%;
+  margin: 0;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", sans-serif;
+}
+
+.login-wrapper {
+  display: flex;
+height: 100vh;
+  width: 100%;
+  padding: 20px;   /* spacing moved here */
+  background-color: #f5f7fa; /* optional light background */
+}
+
+
+/* LEFT SIDE */
+.login-left {
+  flex: 1;
+  background: white;
+  padding: 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+}
+
+
+.login-left .login-image {
+  width: 20rem;
+  margin-bottom: 20px;
+}
+
+.login-left h2 {
+  margin-bottom: 10px;
+}
+
+.subtitle {
+  margin-bottom: 25px;
+  color: gray;
+}
+
+.login-left label {
+  margin-top: 10px;
+  font-size: 14px;
+  display: block;
+  text-align: left;
+}
+
+.login-left input {
+  padding: 8px;
+  font-size: 14px;
+  border-radius: 6px;
+  width: 100%;
+  margin-bottom: 12px;
+  border: 1px solid #ccc;
+}
+
+.forgot {
+  text-align: right;
+  padding-bottom: 10px;
+}
+
+.forgot a {
+  font-size: 13px;
+  text-decoration: none;
+  color: #1E4AE9;
+}
+
+.signin-btn {
+  padding: 8px;
+  font-size: 14px;
+  border-radius: 6px;
+  background-color: #162D3A;
+  color: #FFFFFF;
+  width: 100%;
+  cursor: pointer;
+  margin-bottom: 12px;
+}
+
+.divider {
+  text-align: center;
+  margin: 20px 0;
+  color: gray;
+}
+
+.signup-text {
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+.signup-text span {
+  color: #1E4AE9;
+  cursor: pointer;
+}
+
+.footer {
+  text-align: center;
+  font-size: 12px;
+  color: #959CB6;
+  margin-top: 20px;
+}
+
+/* FORM BOX */
+.form-box {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.social-media {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.google-btn,
+.facebook-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+}
+
+.icon {
+  width: 18px;
+  height: 18px;
+}
+
+/* RIGHT SIDE */
+.login-right {
+  flex: 1;
+  padding: 60px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-radius: 20px;
+
+  background:
+    linear-gradient(rgba(21, 78, 225, 0.75), rgba(21, 78, 225, 0.75)),
+    url("../assets/image.png");
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.right-content {
+  max-width: 550px;
+}
+
+/* Quote */
+.quote {
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 1.4;
+  margin-bottom: 15px;
+}
+
+.quote-sub {
+  margin-bottom: 40px;
+  opacity: 0.9;
+}
+
+/* Brand */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.brand i {
+  font-size: 28px;
+}
+
+/* Platform title */
+.platform-title {
+  margin-bottom: 15px;
+  font-weight: 500;
+}
+
+/* Description */
+.description {
+  margin-bottom: 30px;
+  line-height: 1.6;
+}
+
+/* Features */
+.features {
+  margin-bottom: 40px;
+}
+
+.feature-item {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.feature-item i {
+  font-size: 22px;
+  margin-top: 5px;
+}
+
+/* Stats */
+.stats {
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid rgba(255,255,255,0.3);
+  padding-top: 20px;
+}
+
+.stats h3 {
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.stats p {
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .login-wrapper {
+    flex-direction: column;
+  }
+  .login-left, .login-right {
+    width: 100%;
+    margin: 0;
+    border-radius: 0;
+    padding: 20px;
+  }
+  .login-left .login-image {
+    width: 12rem;
+  }
+}
