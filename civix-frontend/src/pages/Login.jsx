@@ -1,33 +1,47 @@
-import React from "react";
+import React, { useState } from "react";
+import { toast } from 'react-toastify';
+import { Link, useNavigate } from "react-router-dom";
+import { useGoogleLogin } from '@react-oauth/google';
+import api from "../api/axios";
 import "../styles/login.css";
 import welcomeImg from "../assets/image1.png";
 import Google from "../assets/image2.png";
 import Facebook from "../assets/image3.png";
-import bgImage from "../assets/image.png";
 import "@fortawesome/fontawesome-free/css/all.min.css";
-import { useGoogleLogin } from '@react-oauth/google';
-import { useNavigate } from "react-router-dom";
 
 function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  // Google login handler
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setError("");
+    try {
+      const res = await api.post('/auth/login', { email, password });
+      console.log("Login Success:", res.data);
+      toast.success("Login successful! Welcome back.");
+      setTimeout(() => {
+        navigate('/');
+      }, 1000);
+    } catch (err) {
+      console.error(err);
+      const errorMsg = err.response?.data?.message || "Login failed";
+      setError(errorMsg);
+      toast.error(errorMsg);
+    }
+  };
+
   const handleGoogleLogin = useGoogleLogin({
     onSuccess: async (codeResponse) => {
       try {
-        const res = await fetch('http://localhost:5000/api/auth/google', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ code: codeResponse.code }),
-        });
-        const data = await res.json();
-        console.log("Login Success:", data);
-        if (data.token) {
-          localStorage.setItem('token', data.token);
-          window.location.href = '/'; // Redirect to home page
-        }
+        const res = await api.post('/auth/google', { code: codeResponse.code });
+        console.log("Login Success:", res.data);
+        navigate('/');
       } catch (err) {
         console.error(err);
+        setError("Google login failed");
       }
     },
     flow: 'auth-code',
@@ -45,36 +59,50 @@ function Login() {
           Join our platform to make your voice heard in local governance
         </p>
 
-        <div className="form-box">
+        {error && <p className="error-message" style={{ color: 'red', marginBottom: '10px' }}>{error}</p>}
+
+        <form className="form-box" onSubmit={handleLogin} style={{ width: '100%', border: 'none', padding: '0', boxShadow: 'none' }}>
           <label>Email</label>
-          <input type="email" placeholder="Example@email.com" />
+          <input
+            type="email"
+            placeholder="Example@email.com"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
 
           <label>Password</label>
-          <input type="password" placeholder="At least 8 characters" />
+          <input
+            type="password"
+            placeholder="At least 8 characters"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
 
           <div className="forgot">
             <a href="#">Forgot Password?</a>
           </div>
 
-          <button className="signin-btn">Sign in</button>
+          <button type="submit" className="signin-btn">Sign in</button>
 
           <div className="divider">---------- OR ----------</div>
 
           <div className="social-media">
-            <button className="google-btn" onClick={() => handleGoogleLogin()}>
+            <button type="button" className="google-btn" onClick={() => handleGoogleLogin()}>
               <img src={Google} alt="google" className="icon" />
               Sign in with Google
             </button>
 
-            <button className="facebook-btn">
+            <button type="button" className="facebook-btn">
               <img src={Facebook} alt="Facebook" className="icon" />
               Sign in with Facebook
             </button>
           </div>
-        </div>
+        </form>
 
         <p className="signup-text">
-          Don't have an account? <span onClick={() => navigate('/register')}>Sign up</span>
+          Don't have an account? <Link to="/register">Sign up</Link>
         </p>
 
         <p className="footer">© 2026 ALL RIGHTS RESERVED</p>

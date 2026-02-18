@@ -1,34 +1,68 @@
 import React, { useState } from "react";
+import { toast } from 'react-toastify';
 import { Link, useNavigate } from "react-router-dom";
 import { useGoogleLogin } from '@react-oauth/google';
-import { Landmark, FileText, Vote, CheckCircle, User, Mail, Lock, ArrowRight, Rocket, MapPin, Loader2 } from "lucide-react";
+import { Landmark, FileText, Vote, CheckCircle, User, Mail, ArrowRight, Rocket, MapPin, Loader2 } from "lucide-react";
+import api from "../api/axios";
 import "../styles/register.css";
-
 import bgImage from "../assets/registerpage.jpg";
 
 function Register() {
     const [role, setRole] = useState("citizen");
-    const [location, setLocation] = useState("");
+    const [formData, setFormData] = useState({
+        name: "",
+        email: "",
+        password: "",
+        location: ""
+    });
     const [loadingLocation, setLoadingLocation] = useState(false);
     const [locationError, setLocationError] = useState("");
+    const [error, setError] = useState("");
     const navigate = useNavigate();
+
+    const handleChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+
+    const handleLocationChange = (e) => {
+        const selectedValue = e.target.value;
+        if (selectedValue === "use_current_location") {
+            handleGetCurrentLocation();
+        } else {
+            setFormData({ ...formData, location: selectedValue });
+        }
+    };
+
+    const handleRegister = async (e) => {
+        e.preventDefault();
+        setError("");
+        try {
+            const res = await api.post('/auth/register', {
+                ...formData,
+                role
+            });
+            console.log("Registration Success:", res.data);
+            toast.success("Registration successful! Welcome to Civix.");
+            setTimeout(() => {
+                navigate('/');
+            }, 1000);
+        } catch (err) {
+            console.error(err);
+            const errorMsg = err.response?.data?.message || err.response?.data?.error || "Registration failed";
+            setError(errorMsg);
+            toast.error(errorMsg);
+        }
+    };
 
     const handleGoogleLogin = useGoogleLogin({
         onSuccess: async (codeResponse) => {
             try {
-                const res = await fetch('http://localhost:5000/api/auth/google', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ code: codeResponse.code }),
-                });
-                const data = await res.json();
-                console.log("Login Success:", data);
-                if (data.token) {
-                    localStorage.setItem('token', data.token);
-                    navigate('/');
-                }
+                const res = await api.post('/auth/google', { code: codeResponse.code });
+                console.log("Login Success:", res.data);
+                navigate('/');
             } catch (err) {
                 console.error(err);
+                setError("Google login failed");
             }
         },
         flow: 'auth-code',
@@ -38,7 +72,6 @@ function Register() {
         setLoadingLocation(true);
         setLocationError("");
 
-        // Check if geolocation is available
         if (!navigator.geolocation) {
             setLocationError("Geolocation is not supported by your browser");
             setLoadingLocation(false);
@@ -50,7 +83,6 @@ function Register() {
                 const { latitude, longitude } = position.coords;
 
                 try {
-                    // Call OpenStreetMap Nominatim reverse geocoding API
                     const response = await fetch(
                         `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&addressdetails=1`
                     );
@@ -61,14 +93,13 @@ function Register() {
 
                     const data = await response.json();
 
-                    // Extract city name from response (check city, town, or village)
                     const cityName = data.address?.city ||
                         data.address?.town ||
                         data.address?.village ||
                         data.address?.state ||
                         "Unknown";
 
-                    setLocation(cityName);
+                    setFormData(prev => ({ ...prev, location: cityName }));
                     setLoadingLocation(false);
                 } catch (error) {
                     console.error("Error fetching location:", error);
@@ -77,7 +108,6 @@ function Register() {
                 }
             },
             (error) => {
-                // Handle geolocation errors
                 let errorMessage = "";
                 switch (error.code) {
                     case error.PERMISSION_DENIED:
@@ -102,7 +132,6 @@ function Register() {
     return (
         <div className="register-wrapper" style={{ backgroundImage: `url(${bgImage})`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundAttachment: 'fixed' }}>
             <div className="register-container">
-
                 {/* LEFT SIDE - Content */}
                 <div className="register-left">
                     <div className="brand-header">
@@ -147,8 +176,6 @@ function Register() {
                             </div>
                         </div>
                     </div>
-
-
                 </div>
 
                 {/* RIGHT SIDE - Form Card */}
@@ -157,13 +184,21 @@ function Register() {
                         <h2>Create Your Account</h2>
                         <p className="subtitle">Start engaging with your community today.</p>
 
-                        <form className="register-form">
+                        {error && <p className="error-message" style={{ color: 'red', marginBottom: '10px' }}>{error}</p>}
 
+                        <form className="register-form" onSubmit={handleRegister}>
                             <div className="form-group">
                                 <label>Full Name</label>
                                 <div className="input-wrapper">
                                     <User size={18} className="input-icon" />
-                                    <input type="text" placeholder="Full Name" />
+                                    <input
+                                        type="text"
+                                        name="name"
+                                        placeholder="Full Name"
+                                        value={formData.name}
+                                        onChange={handleChange}
+                                        required
+                                    />
                                 </div>
                             </div>
 
@@ -171,15 +206,29 @@ function Register() {
                                 <label>Email Address</label>
                                 <div className="input-wrapper">
                                     <Mail size={18} className="input-icon" />
-                                    <input type="email" placeholder="Email Address" />
+                                    <input
+                                        type="email"
+                                        name="email"
+                                        placeholder="Email Address"
+                                        value={formData.email}
+                                        onChange={handleChange}
+                                        required
+                                    />
                                 </div>
                             </div>
 
                             <div className="form-group">
                                 <label>Password</label>
                                 <div className="input-wrapper">
-                                    {/* Only showing placeholder as per design, but good to have icon */}
-                                    <input type="password" placeholder="Must be at least 8 characters" />
+                                    <input
+                                        type="password"
+                                        name="password"
+                                        placeholder="Must be at least 8 characters"
+                                        value={formData.password}
+                                        onChange={handleChange}
+                                        required
+                                        minLength={8}
+                                    />
                                 </div>
                             </div>
 
@@ -188,29 +237,23 @@ function Register() {
                                 <div className="input-wrapper">
                                     <MapPin size={18} className="input-icon" />
                                     <select
-                                        value={location}
-                                        onChange={(e) => {
-                                            const selectedValue = e.target.value;
-                                            if (selectedValue === "use_current_location") {
-                                                handleGetCurrentLocation();
-                                            } else {
-                                                setLocation(selectedValue);
-                                            }
-                                        }}
+                                        name="location"
+                                        value={formData.location}
+                                        onChange={handleLocationChange}
+                                        required
                                     >
                                         <option value="" disabled>Select your location</option>
                                         <option value="use_current_location">📍 Use My Current Location</option>
 
-                                        {/* Dynamic option for detected location if not a state */}
-                                        {location && ![
+                                        {formData.location && ![
                                             "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh", "Goa", "Gujarat",
                                             "Haryana", "Himachal Pradesh", "Jharkhand", "Karnataka", "Kerala", "Madhya Pradesh",
                                             "Maharashtra", "Manipur", "Meghalaya", "Mizoram", "Nagaland", "Odisha", "Punjab",
                                             "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana", "Tripura", "Uttar Pradesh",
                                             "Uttarakhand", "West Bengal", "Delhi", "Chandigarh", "Puducherry", "Jammu and Kashmir",
                                             "Ladakh", "Lakshadweep", "Andaman and Nicobar Islands"
-                                        ].includes(location) && location !== "use_current_location" && (
-                                                <option value={location}>📍 {location} (Detected)</option>
+                                        ].includes(formData.location) && formData.location !== "use_current_location" && (
+                                                <option value={formData.location}>📍 {formData.location} (Detected)</option>
                                             )}
 
                                         <option value="Andhra Pradesh">Andhra Pradesh</option>
@@ -251,13 +294,13 @@ function Register() {
                                         <option value="Puducherry">Puducherry</option>
                                     </select>
                                 </div>
-                                {loadingLocation && <p className="location-loading">Detecting your location...</p>}
+                                {loadingLocation && <p className="location-loading"><Loader2 size={16} className="animate-spin" /> Detecting your location...</p>}
                                 {locationError && <p className="location-error">{locationError}</p>}
                             </div>
 
                             <div className="form-group">
                                 <div className="role-selection">
-                                    <label className="radio-group" onClick={() => setRole("citizen")}>
+                                    <label className="radio-group" style={{ cursor: 'pointer' }}>
                                         <input
                                             type="radio"
                                             name="role"
@@ -266,7 +309,7 @@ function Register() {
                                         />
                                         Citizen
                                     </label>
-                                    <label className="radio-group" onClick={() => setRole("official")}>
+                                    <label className="radio-group" style={{ cursor: 'pointer' }}>
                                         <input
                                             type="radio"
                                             name="role"
@@ -278,10 +321,9 @@ function Register() {
                                 </div>
                             </div>
 
-                            <button type="button" className="register-btn">
+                            <button type="submit" className="register-btn">
                                 Create Account <ArrowRight size={18} />
                             </button>
-
                         </form>
 
                         <div className="divider-text">Or</div>
@@ -290,9 +332,6 @@ function Register() {
                             <button className="social-btn" onClick={() => handleGoogleLogin()}>
                                 Sign up with Google
                             </button>
-                            <button className="social-btn">
-                                Facebook
-                            </button>
                         </div>
 
                         <p className="signin-link">
@@ -300,7 +339,6 @@ function Register() {
                         </p>
                     </div>
                 </div>
-
             </div>
         </div>
     );

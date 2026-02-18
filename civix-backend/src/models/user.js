@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -13,7 +14,7 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     // Password is not required if using Google Auth
-    required: function() {
+    required: function () {
       return !this.googleId;
     }
   },
@@ -27,10 +28,30 @@ const userSchema = new mongoose.Schema({
     enum: ['citizen', 'official', 'admin'],
     default: 'citizen',
   },
-  createdAt: {
-    type: Date,
-    default: Date.now,
+  location: {
+    type: String,
+    default: ''
+  }
+}, { timestamps: true });
+
+// Pre-save hook to hash password
+// Pre-save hook to hash password
+userSchema.pre('save', async function () {
+  if (!this.isModified('password')) {
+    return;
+  }
+
+  // Only hash if password exists (it might be empty for Google Auth users)
+  if (this.password) {
+    const salt = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(this.password, salt);
   }
 });
+
+// Method to compare password
+userSchema.methods.comparePassword = async function (enteredPassword) {
+  if (!this.password) return false;
+  return await bcrypt.compare(enteredPassword, this.password);
+};
 
 module.exports = mongoose.model('User', userSchema);
