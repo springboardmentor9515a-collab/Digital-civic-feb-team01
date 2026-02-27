@@ -17,6 +17,7 @@ function Home() {
         <div className="home-nav-links">
           <a href="#about">About</a>
           <a href="#how">How It Works</a>
+          <Link to="/petitions">Petitions</Link>
           {isAuthenticated ? (
             <Link to="/dashboard" className="home-register-btn">Dashboard</Link>
           ) : (

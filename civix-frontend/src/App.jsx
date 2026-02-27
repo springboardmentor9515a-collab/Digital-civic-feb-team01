@@ -4,6 +4,9 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
+import PetitionList from "./pages/petitions/PetitionList";
+import PetitionDetail from "./pages/petitions/PetitionDetail";
+import CreatePetition from "./pages/petitions/CreatePetition";
 
 function App() {
   return (
@@ -17,6 +20,30 @@ function App() {
           element={
             <ProtectedRoute>
               <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/petitions"
+          element={
+            <ProtectedRoute>
+              <PetitionList />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/petitions/:id"
+          element={
+            <ProtectedRoute>
+              <PetitionDetail />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/create-petition"
+          element={
+            <ProtectedRoute>
+              <CreatePetition />
             </ProtectedRoute>
           }
         />

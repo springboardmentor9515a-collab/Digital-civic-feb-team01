@@ -1,38 +1,18 @@
 import React from "react";
+import { useNavigate, Link } from "react-router-dom";
 import "../styles/dashboard.css";
 import { useAuth } from "../context/AuthContext";
-import { LogOut } from "lucide-react";
+import Sidebar from "../components/Sidebar";
 
 const Dashboard = () => {
   const { user, logout } = useAuth();
+  const navigate = useNavigate();
 
   return (
     <div className="dashboard-wrapper">
 
-      {/* Sidebar */}
-      <aside className="sidebar">
-        <div className="sidebar-header">
-          <h2>Civix</h2>
-        </div>
-
-        <ul className="sidebar-menu">
-          <li className="active">Dashboard</li>
-          <li>Petitions</li>
-          <li>Polls</li>
-          <li>Officials</li>
-          <li>Reports</li>
-          <li>Settings</li>
-          <li onClick={logout} className="logout-item" style={{ cursor: 'pointer', color: '#ff4d4d' }}>
-            <LogOut size={18} style={{ marginRight: '10px' }} />
-            Logout
-          </li>
-        </ul>
-      </aside>
-
-      {/* Main Content */}
+      <Sidebar />
       <main className="dashboard-content">
-
-        {/* Header */}
         <div className="dashboard-header">
           <h2>Welcome back, {user?.name?.split(' ')[0] || 'User'} 👋
             <span className="role-badge" style={{ fontSize: '0.5em', background: '#e2e8f0', padding: '4px 8px', borderRadius: '12px', marginLeft: '10px', verticalAlign: 'middle' }}>
@@ -40,9 +20,9 @@ const Dashboard = () => {
             </span>
           </h2>
           {user?.role === 'citizen' ? (
-            <button className="primary-btn" disabled title="Coming in Milestone 2">Create Petition (M2)</button>
+            <Link to="/create-petition" className="primary-btn" style={{ textDecoration: 'none' }}>Create Petition</Link>
           ) : (
-            <button className="primary-btn" style={{ background: '#4a5568' }}>Review Local Petitions</button>
+            <Link to="/petitions" className="primary-btn" style={{ background: '#4a5568', textDecoration: 'none' }}>Review Local Petitions</Link>
           )}
         </div>
 

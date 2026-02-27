@@ -14,51 +14,54 @@ html, body, #root {
   display: flex;
 height: 100vh;
   width: 100%;
-  padding: 20px;   /* spacing moved here */
-  background-color: #f5f7fa; /* optional light background */
+  padding: 0;
+  background-color: #ffffff;
+  overflow: hidden;
+  /* Prevent scroll on desktop */
 }
 
 
 /* LEFT SIDE */
 .login-left {
   flex: 1;
-  background: white;
-  padding: 60px;
+  background: transparent;
+  padding: 1.5rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  border-radius: 20px;
 }
 
 
 .login-left .login-image {
-  width: 20rem;
-  margin-bottom: 20px;
+  width: 12rem;
+  margin-bottom: 0.75rem;
 }
 
 .login-left h2 {
-  margin-bottom: 10px;
+  margin-bottom: 0.25rem;
+  font-size: 1.5rem;
 }
 
 .subtitle {
-  margin-bottom: 25px;
+  margin-bottom: 1rem;
   color: gray;
+  font-size: 0.9rem;
 }
 
 .login-left label {
-  margin-top: 10px;
-  font-size: 14px;
+  margin-top: 0.4rem;
+  font-size: 0.8rem;
   display: block;
   text-align: left;
 }
 
 .login-left input {
-  padding: 8px;
-  font-size: 14px;
-  border-radius: 6px;
+  padding: 0.4rem;
+  font-size: 0.8rem;
+  border-radius: 0.375rem;
   width: 100%;
-  margin-bottom: 12px;
+  margin-bottom: 0.5rem;
   border: 1px solid #ccc;
 }
 
@@ -74,24 +77,25 @@ height: 100vh;
 }
 
 .signin-btn {
-  padding: 8px;
-  font-size: 14px;
+  padding: 0.6rem;
+  font-size: 0.875rem;
   border-radius: 6px;
   background-color: #162D3A;
   color: #FFFFFF;
   width: 100%;
   cursor: pointer;
-  margin-bottom: 12px;
+  margin-bottom: 0.5rem;
 }
 
 .divider {
   text-align: center;
-  margin: 20px 0;
+  margin: 0.75rem 0;
   color: gray;
+  font-size: 0.8rem;
 }
 
 .signup-text {
-  margin-top: 15px;
+  margin-top: 0.75rem;
   font-size: 14px;
 }
 
@@ -104,13 +108,14 @@ height: 100vh;
   text-align: center;
   font-size: 12px;
   color: #959CB6;
-  margin-top: 20px;
+  margin-top: 0.5rem;
 }
 
 /* FORM BOX */
 .form-box {
   width: 100%;
-  max-width: 400px;
+  max-width: 25rem;
+  /* 400px -> 25rem */
   margin: 0 auto;
 }
 
@@ -141,12 +146,13 @@ height: 100vh;
 /* RIGHT SIDE */
 .login-right {
   flex: 1;
-  padding: 60px;
+  padding: 1.5rem 2.5rem;
+  margin: 1rem 1rem 1rem 0;
   color: white;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  border-radius: 20px;
+  border-radius: 1.25rem;
 
   background:
     linear-gradient(rgba(21, 78, 225, 0.75), rgba(21, 78, 225, 0.75)),
@@ -156,21 +162,24 @@ height: 100vh;
   background-position: center;
   background-repeat: no-repeat;
 }
+
 .right-content {
-  max-width: 550px;
+  max-width: 34.375rem;
+  /* 550px -> 34.375rem */
 }
 
 /* Quote */
 .quote {
-  font-size: 28px;
+  font-size: 1.5rem;
   font-weight: 600;
-  line-height: 1.4;
-  margin-bottom: 15px;
+  line-height: 1.3;
+  margin-bottom: 0.5rem;
 }
 
 .quote-sub {
-  margin-bottom: 40px;
+  margin-bottom: 1.5rem;
   opacity: 0.9;
+  font-size: 0.9rem;
 }
 
 /* Brand */
@@ -193,31 +202,41 @@ height: 100vh;
 
 /* Description */
 .description {
-  margin-bottom: 30px;
-  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  line-height: 1.4;
+  font-size: 0.9rem;
 }
 
 /* Features */
 .features {
-  margin-bottom: 40px;
+  margin-bottom: 1.5rem;
 }
 
 .feature-item {
   display: flex;
-  gap: 15px;
-  margin-bottom: 20px;
+  gap: 12px;
+  margin-bottom: 12px;
 }
 
 .feature-item i {
-  font-size: 22px;
-  margin-top: 5px;
+  font-size: 18px;
+  margin-top: 3px;
+}
+
+.feature-item h5 {
+  font-size: 0.95rem;
+  margin-bottom: 2px;
+}
+
+.feature-item p {
+  font-size: 0.85rem;
 }
 
 /* Stats */
 .stats {
   display: flex;
   justify-content: space-between;
-  border-top: 1px solid rgba(255,255,255,0.3);
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
   padding-top: 20px;
 }
 
@@ -235,14 +254,43 @@ height: 100vh;
 @media (max-width: 1024px) {
   .login-wrapper {
     flex-direction: column;
+    height: auto;
+    padding: 1rem;
   }
-  .login-left, .login-right {
+
+  .login-left,
+  .login-right {
     width: 100%;
     margin: 0;
-    border-radius: 0;
-    padding: 20px;
+    border-radius: 1rem;
+    padding: 2.5rem 1.5rem;
+    margin-bottom: 1rem;
   }
+
   .login-left .login-image {
     width: 12rem;
+  }
+a
+  .login-right {
+    min-height: 400px;
+  }
+}
+
+@media (max-width: 480px) {
+
+  .login-left,
+  .login-right {
+    padding: 1.5rem 1rem;
+  }
+
+  .quote {
+    font-size: 1.5rem;
+  }
+
+  .stats {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+    text-align: center;
   }
 }
