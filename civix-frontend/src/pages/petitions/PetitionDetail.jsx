@@ -7,6 +7,7 @@ import { Loader2, MapPin, Tag, Users, Calendar, ArrowLeft } from 'lucide-react';
 import RoleGuard from '../../components/RoleGuard';
 import Sidebar from '../../components/Sidebar';
 import '../../styles/dashboard.css';
+import { toast } from 'react-toastify';
 
 const PetitionDetail = () => {
     const { id } = useParams();
@@ -46,11 +47,13 @@ const PetitionDetail = () => {
                 signatureCount: (prev.signatureCount || 0) + 1,
                 isSigned: true // Assuming backend returns this or we track it
             }));
+            
+            toast.success('Successfully signed the petition!');
 
             // Re-fetch to be sure
             // fetchPetition(); 
         } catch (err) {
-            alert(err.message || 'Failed to sign petition.');
+            toast.error(err.message || 'Failed to sign petition.');
         } finally {
             setSigning(false);
         }

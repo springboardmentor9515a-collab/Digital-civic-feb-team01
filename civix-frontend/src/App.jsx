@@ -8,6 +8,10 @@ import PetitionList from "./pages/petitions/PetitionList";
 import PetitionDetail from "./pages/petitions/PetitionDetail";
 import CreatePetition from "./pages/petitions/CreatePetition";
 
+import PollList from "./pages/polls/PollList";
+import CreatePoll from "./pages/polls/CreatePoll";
+import PollDetail from "./pages/polls/PollDetail";
+
 function App() {
   return (
     <Router>
@@ -52,6 +56,32 @@ function App() {
           element={
             <ProtectedRoute>
               <CreatePetition />
+            </ProtectedRoute>
+          }
+        />
+        
+        {/* Polls Routes */}
+        <Route
+          path="/polls"
+          element={
+            <ProtectedRoute>
+              <PollList />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/create-poll"
+          element={
+            <ProtectedRoute>
+              <CreatePoll />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/polls/:id"
+          element={
+            <ProtectedRoute>
+              <PollDetail />
             </ProtectedRoute>
           }
         />

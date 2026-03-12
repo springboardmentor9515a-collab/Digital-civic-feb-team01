@@ -11,7 +11,7 @@ const Sidebar = () => {
     const menuItems = [
         { name: 'Dashboard', path: '/dashboard', icon: <Home size={18} /> },
         { name: 'Petitions', path: '/petitions', icon: <FileText size={18} /> },
-        { name: 'Polls', path: '#', icon: <Vote size={18} /> },
+        { name: 'Polls', path: '/polls', icon: <Vote size={18} /> },
         { name: 'Officials', path: '#', icon: <Users size={18} /> },
         { name: 'Reports', path: '#', icon: <MessageSquare size={18} /> },
         { name: 'Settings', path: '#', icon: <Settings size={18} /> },
