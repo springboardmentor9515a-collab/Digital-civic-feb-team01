@@ -4,7 +4,7 @@ import { LogOut, Home, FileText, Vote, Users, MessageSquare, Settings } from 'lu
 import { useAuth } from '../context/AuthContext';
 
 const Sidebar = () => {
-    const { logout } = useAuth();
+    const { user, logout } = useAuth();
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -15,7 +15,12 @@ const Sidebar = () => {
         { name: 'Officials', path: '#', icon: <Users size={18} /> },
         { name: 'Reports', path: '#', icon: <MessageSquare size={18} /> },
         { name: 'Settings', path: '#', icon: <Settings size={18} /> },
-    ];
+    ].filter(item => {
+        if (item.name === 'Petitions' && (user?.role === 'admin' || user?.role === 'official')) {
+            return false;
+        }
+        return true;
+    });
 
     return (
         <aside className="sidebar">
