@@ -8,19 +8,23 @@ const Sidebar = () => {
     const navigate = useNavigate();
     const location = useLocation();
 
-    const menuItems = [
-        { name: 'Dashboard', path: '/dashboard', icon: <Home size={18} /> },
-        { name: 'Petitions', path: '/petitions', icon: <FileText size={18} /> },
-        { name: 'Polls', path: '/polls', icon: <Vote size={18} /> },
-        { name: 'Officials', path: '#', icon: <Users size={18} /> },
-        { name: 'Reports', path: '#', icon: <MessageSquare size={18} /> },
-        { name: 'Settings', path: '#', icon: <Settings size={18} /> },
-    ].filter(item => {
-        if (item.name === 'Petitions' && (user?.role === 'admin' || user?.role === 'official')) {
-            return false;
-        }
-        return true;
-    });
+   const menuItems = [
+  { name: 'Dashboard', path: '/dashboard', icon: <Home size={18} /> },
+  { name: 'Petitions', path: '/petitions', icon: <FileText size={18} /> },
+  { name: 'Polls', path: '/polls', icon: <Vote size={18} /> },
+  { name: 'Officials', path: '#', icon: <Users size={18} /> },
+  { name: 'Reports', path: '/reports', icon: <MessageSquare size={18} /> },
+  { name: 'Settings', path: '#', icon: <Settings size={18} /> },
+].filter(item => {
+  if (
+    item.name === 'Petitions' &&
+    (user?.role === 'admin' || user?.role === 'official')
+  ) {
+    return false;
+  }
+  return true;
+});
+
 
     return (
         <aside className="sidebar">
